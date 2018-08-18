@@ -25,6 +25,7 @@ import android.widget.ViewFlipper;
 
 import com.han.mynews.R;
 import com.han.mynews.dto.NewsItem;
+import com.han.mynews.extend.MovableFloatingActionButton;
 import com.han.mynews.handler.BackPressCloseHandler;
 import com.han.mynews.view.NewsItemView;
 
@@ -45,15 +46,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         vf = (ViewFlipper)findViewById(R.id.vf);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        MovableFloatingActionButton snsBtn = (MovableFloatingActionButton) findViewById(R.id.snsBtn);
+        snsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "share sns : " + webView.getOriginalUrl(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -80,16 +79,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 NewsItem item = (NewsItem) adapter.getItem(position);
                 Toast.makeText(getApplicationContext(), "선택 : " + item.getTitle(), Toast.LENGTH_LONG).show();
 
-               // Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
-
-               // intent.putExtra("id", item.getId());
-               // intent.putExtra("url", item.getUrl());
-
-               // startActivityForResult(intent, 100);
-
                 webView = (WebView) findViewById(R.id.webView);
                 webView.setWebViewClient(new WebViewClient());
 
+                webView.loadUrl("about:blank");
                 webView.clearFormData();
                 webView.clearHistory();
 
@@ -114,14 +107,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.addItem(new NewsItem(2, "구글", "구글신문", "https://news.google.com", 0));
         adapter.addItem(new NewsItem(3, "네이트", "네이트뉴스", "http://m.news.nate.com/?", 0));
         adapter.addItem(new NewsItem(4, "국민일보", "국민일보", "http://m.kmib.co.kr/", 0));
+        adapter.addItem(new NewsItem(0, "네이버", "네이버신문", "https://m.news.naver.com", 0));
+        adapter.addItem(new NewsItem(1, "다음", "다음신문", "http://m.media.daum.net", 0));
+        adapter.addItem(new NewsItem(2, "구글", "구글신문", "https://news.google.com", 0));
+        adapter.addItem(new NewsItem(3, "네이트", "네이트뉴스", "http://m.news.nate.com/?", 0));
+        adapter.addItem(new NewsItem(4, "국민일보", "국민일보", "http://m.kmib.co.kr/", 0));
+        adapter.addItem(new NewsItem(0, "네이버", "네이버신문", "https://m.news.naver.com", 0));
+        adapter.addItem(new NewsItem(1, "다음", "다음신문", "http://m.media.daum.net", 0));
+        adapter.addItem(new NewsItem(2, "구글", "구글신문", "https://news.google.com", 0));
+        adapter.addItem(new NewsItem(3, "네이트", "네이트뉴스", "http://m.news.nate.com/?", 0));
+        adapter.addItem(new NewsItem(4, "국민일보", "국민일보", "http://m.kmib.co.kr/", 0));
     }
 
     @Override
     public void onBackPressed() {
-
-//        Log.d("aaaaaaaaa", "현재 : " + webView.getOriginalUrl()+" / "+webViewFirstUrl);
-        Log.d("aaaaaaaaa2", "현재 : " + vf.getDisplayedChild());
-        //Log.d("aaaaaaaaa2", "webView.canGoBack() : " + mainWebView.canGoBack());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -129,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if(vf.getDisplayedChild() == 1) {
             if(this.webView.canGoBack()) {
                 this.webView.goBack();
+                if(this.webView.getOriginalUrl().equalsIgnoreCase("about:blank")) {
+                    vf.setDisplayedChild(0);
+                }
             } else {
                 vf.setDisplayedChild(0);
             }
