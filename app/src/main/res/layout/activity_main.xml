@@ -28,5 +28,6 @@
 
         <include android:id="@+id/vf_content" layout="@layout/content_main" />
         <include android:id="@+id/vf_newsview" layout="@layout/webview" />
+        <include android:id="@+id/vf_db" layout="@layout/db" />
     </ViewFlipper>
 </android.support.v4.widget.DrawerLayout>

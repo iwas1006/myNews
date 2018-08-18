@@ -19,17 +19,25 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.han.mynews.R;
+import com.han.mynews.db.DBHelper;
+import com.han.mynews.dto.Item;
 import com.han.mynews.dto.NewsItem;
 import com.han.mynews.extend.MovableFloatingActionButton;
 import com.han.mynews.handler.BackPressCloseHandler;
 import com.han.mynews.view.NewsItemView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -45,6 +53,77 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        final DBHelper dbHelper = new DBHelper(getApplicationContext(), "MoneyBook.db", null, 1);
+        final TextView result = (TextView) findViewById(R.id.result);
+        final EditText etDate = (EditText) findViewById(R.id.date);
+        final EditText etItem = (EditText) findViewById(R.id.item);
+        final EditText etPrice = (EditText) findViewById(R.id.price);
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        // 출력될 포맷 설정
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+        etDate.setText(simpleDateFormat.format(date));
+
+        // DB에 데이터 추가
+        Button insert = (Button) findViewById(R.id.insert);
+        insert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String date = etDate.getText().toString();
+                String item = etItem.getText().toString();
+                int price = Integer.parseInt(etPrice.getText().toString());
+
+                dbHelper.insert(date, item, price);
+                result.setText(dbHelper.getResult());
+            }
+        });
+
+        // DB에 있는 데이터 수정
+        Button update = (Button) findViewById(R.id.update);
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String item = etItem.getText().toString();
+                int price = Integer.parseInt(etPrice.getText().toString());
+
+                dbHelper.update(item, price);
+                result.setText(dbHelper.getResult());
+            }
+        });
+
+        // DB에 있는 데이터 삭제
+        Button delete = (Button) findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String item = etItem.getText().toString();
+
+                dbHelper.delete(item);
+                result.setText(dbHelper.getResult());
+            }
+        });
+
+        // DB에 있는 데이터 조회
+        Button select = (Button) findViewById(R.id.select);
+        select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                result.setText(dbHelper.getResult());
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
 
         vf = (ViewFlipper)findViewById(R.id.vf);
 
@@ -100,8 +179,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         vf.setDisplayedChild(0);
     }
-
+    private void addSavedList(NewsAdapter adapter) {
+        final DBHelper dbHelper = new DBHelper(getApplicationContext(), "MoneyBook.db", null, 1);
+        List<NewsItem> itemList = dbHelper.getItems();
+        for(NewsItem item : itemList) {
+            adapter.addItem(item);
+        }
+    }
     private void addList(NewsAdapter adapter) {
+
         adapter.addItem(new NewsItem(0, "네이버", "네이버신문", "https://m.news.naver.com", 0));
         adapter.addItem(new NewsItem(1, "다음", "다음신문", "http://m.media.daum.net", 0));
         adapter.addItem(new NewsItem(2, "구글", "구글신문", "https://news.google.com", 0));
@@ -168,11 +254,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            //기본 뉴스 목록
             // Handle the camera action
+            vf.setDisplayedChild(0);
+            adapter = null;
+            adapter = new NewsAdapter();
+            addList(adapter);
+            adapter.notifyDataSetChanged();
         } else if (id == R.id.nav_gallery) {
-
+            //저장 목록
+            vf.setDisplayedChild(0);
+            adapter = null;
+            adapter = new NewsAdapter();
+            addSavedList(adapter);
+            adapter.notifyDataSetChanged();
         } else if (id == R.id.nav_slideshow) {
-
+            //저장하기
+            vf.setDisplayedChild(2);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
