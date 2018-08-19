@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.han.mynews.R;
 import com.han.mynews.fragment.HomeFragment;
+import com.han.mynews.fragment.NewsList2Fragment;
 import com.han.mynews.fragment.NewsListFragment;
 import com.han.mynews.fragment.SaveFragment;
 import com.han.mynews.fragment.SavedListFragment;
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment saveFragment       = new SaveFragment();
         Fragment webViewFragment    = new WebViewFragment();*/
 
-        Fragment newsListFragment   = new NewsListFragment();
+        //Fragment newsListFragment   = new NewsListFragment();
+        Fragment newsListFragment   = new NewsList2Fragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_fragment_layout, newsListFragment, newsListFragment.getClass().getName());
         ft.commit();
