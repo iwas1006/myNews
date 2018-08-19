@@ -14,15 +14,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="날짜" />
+            android:text="title" />
 
         <EditText
-            android:id="@+id/date"
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:clickable="false"
-            android:focusable="false" />
+             />
 
     </LinearLayout>
 
@@ -34,10 +33,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="항목" />
+            android:text="content" />
 
         <EditText
-            android:id="@+id/item"
+            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp" />
@@ -52,14 +51,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="가격" />
+            android:text="url" />
 
         <EditText
-            android:id="@+id/price"
+            android:id="@+id/url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:inputType="number" />
+            />
 
     </LinearLayout>
 

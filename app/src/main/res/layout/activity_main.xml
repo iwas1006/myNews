@@ -18,16 +18,18 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
-
+<!--
     <ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/vf"
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
         <include android:id="@+id/vf_content" layout="@layout/content_main" />
-        <include android:id="@+id/vf_newsview" layout="@layout/webview" />
-        <include android:id="@+id/vf_db" layout="@layout/db" />
-    </ViewFlipper>
+        <include android:id="@+id/vf_newsview" layout="@layout/fragment_webview" />
+        <include android:id="@+id/vf_db" layout="@layout/fragment_db" />
+    </ViewFlipper>-->
+
+
 </android.support.v4.widget.DrawerLayout>
