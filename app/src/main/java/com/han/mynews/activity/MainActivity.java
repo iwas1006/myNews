@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_manage) {
             fragment = new SaveFragment();
         } else if (id == R.id.nav_share) {
-
+            fragment = new NewsList2Fragment();
         } else if (id == R.id.nav_send) {
 
         }
