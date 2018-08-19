@@ -1,5 +1,7 @@
 package com.han.mynews.fragment;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -43,6 +45,11 @@ public class WebViewFragment extends Fragment {
         snsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)getActivity().getSystemService(getActivity().CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("label", webView.getOriginalUrl());
+                clipboardManager.setPrimaryClip(clipData);
+
                 Snackbar.make(view, "share sns : " + webView.getOriginalUrl(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
