@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.han.mynews.R;
+import com.han.mynews.fragment.BookListFragment;
 import com.han.mynews.fragment.HomeFragment;
 import com.han.mynews.fragment.NewsList2Fragment;
 import com.han.mynews.fragment.NewsListFragment;
@@ -158,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_share) {
             fragment = new NewsList2Fragment();
         } else if (id == R.id.nav_send) {
+            fragment = new BookListFragment();
 
         }
 

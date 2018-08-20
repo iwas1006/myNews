@@ -11,4 +11,11 @@
     <color name="yellow">#fffffbae</color>
     <color name="red">#fff10800</color>
     <color name="list_item_pressed">#1A000000</color>
+
+    <color name="primary">#2d2d2d</color>
+    <color name="secondary">#FF4081</color>
+    <color name="accent">#33b5e5</color>
+    <color name="divider">#CCC</color>
+    <color name="icons">#FFF</color>
+    <color name="item_background">#FFF</color>
 </resources>
