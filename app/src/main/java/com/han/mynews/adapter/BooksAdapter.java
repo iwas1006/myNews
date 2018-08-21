@@ -11,11 +11,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.han.mynews.R;
 import com.han.mynews.dto.Book;
 import com.han.mynews.task.BookImageTask;
-import com.han.mynews.task.ImageTask;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import co.dift.ui.SwipeToAction;
 
@@ -23,7 +20,7 @@ import co.dift.ui.SwipeToAction;
 public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Book> items;
-    private static Map<String, String> imageUrlMap = new HashMap<String, String>();
+//    private static Map<String, String> imageUrlMap = new HashMap<String, String>();
 
     /** References to the views for each data item **/
     public class BookViewHolder extends SwipeToAction.ViewHolder<Book> {
@@ -70,20 +67,12 @@ public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         vh.titleView.setText(item.getTitle());
         vh.authorView.setText(item.getContent());
-
-        if(imageUrlMap.containsKey(item.getUrl())) {
-            vh.imageView.setImageURI(Uri.parse(imageUrlMap.get(item.getUrl())));
+        if(item.getImageUrl() != null && item.getImageUrl().length() > 0) {
+            vh.imageView.setImageURI(Uri.parse(item.getImageUrl()));
         } else {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("view", vh.imageView);
-            map.put("map", imageUrlMap);
-
-            //new BookImageTask(holder.itemView.getContext(), map).execute(item.getUrl());
+            new BookImageTask(holder.itemView.getContext(), vh.imageView).execute(item);
         }
 
-
-
-       // vh.imageView.setImageURI(Uri.parse(item.getImageUrl()));
         vh.data = item;
     }
 }

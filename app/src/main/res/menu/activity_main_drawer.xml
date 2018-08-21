@@ -11,15 +11,15 @@
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="newslist" />
+            android:title="BookList" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="saved list" />
+            android:title="BookMark" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="save" />
+            android:title="SaveInfo" />
     </group>
 
     <item android:title="Communicate">

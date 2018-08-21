@@ -13,7 +13,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.han.mynews.R;
+import com.han.mynews.db.DBHelper;
 import com.han.mynews.extend.MovableFloatingActionButton;
+import com.han.mynews.task.BookImageTask;
+import com.han.mynews.task.BookMarkTask;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class WebViewFragment extends Fragment {
 
@@ -51,11 +57,13 @@ public class WebViewFragment extends Fragment {
                 clipboardManager.setPrimaryClip(clipData);
 
                 Snackbar.make(view, "share sns : " + webView.getOriginalUrl(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+                new BookMarkTask(getContext()).execute(webView.getOriginalUrl());
+
             }
         });
 
         // Inflate the layout for this fragment
         return v;
     }
-
 }

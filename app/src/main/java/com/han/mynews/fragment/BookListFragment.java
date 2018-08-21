@@ -1,29 +1,22 @@
 package com.han.mynews.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.han.mynews.R;
 import com.han.mynews.adapter.BooksAdapter;
 import com.han.mynews.dto.Book;
-import com.han.mynews.dto.NewsItem;
-import com.han.mynews.view.NewsItemView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +30,7 @@ public class BookListFragment extends Fragment {
     SwipeToAction swipeToAction;
 
     List<Book> books = new ArrayList<>();
+   // List<Book> soruceBooks = new ArrayList<>();
 
     public BookListFragment() {
         // Required empty public constructor
@@ -102,7 +96,7 @@ public class BookListFragment extends Fragment {
             }
         });
 
-
+       // initBookList();
         populate();
 
         // use swipeLeft or swipeRight and the elem position to swipe by code
@@ -118,6 +112,7 @@ public class BookListFragment extends Fragment {
     }
 
     private void populate() {
+
         this.books.add(new Book("서울신문", "네이버신문", "http://www.seoul.co.kr"));
         this.books.add(new Book("노컷뉴스", "네이버신문", "http://www.nocutnews.co.kr"));
         this.books.add(new Book("조선비즈", "네이버신문", "http://biz.chosun.com"));
@@ -179,6 +174,13 @@ public class BookListFragment extends Fragment {
   
 
     }
+
+//    private void populate() {
+//
+//        for(Book book : this.soruceBooks) {
+//            new BookImageTask(getContext(), this.books).execute(book);
+//        }
+//    }
 
   /*  private void displaySnackbar(String text, String actionName, View.OnClickListener action) {
         Snackbar snack = Snackbar.make(getView().findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG)

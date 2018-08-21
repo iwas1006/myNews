@@ -1,50 +1,35 @@
 package com.han.mynews.task;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.widget.ImageView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.han.mynews.dto.Book;
 import com.han.mynews.dto.OGTag;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.han.mynews.util.Util;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class BookImageTask extends AsyncTask<String, Void, String> {
+import java.util.List;
+
+public class BookImageTask extends AsyncTask<Book, Void, String> {
 
     private Exception e;
     private Context c;
-    private ImageView imageView;
-    private  Map<String, String> imageUrlMap;
+    private SimpleDraweeView imageView;
 
-    public BookImageTask(Context c, Map<String, Object> obj) {
+    public BookImageTask(Context c, SimpleDraweeView imageView) {
         this.c = c;
-        this.imageView = (ImageView)obj.get("view");
-        this.imageUrlMap = (Map<String, String>)obj.get("map");
-
+        this.imageView = imageView;
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected String doInBackground(Book... books) {
+        Util u = new Util();
         try {
-            if(imageUrlMap.containsKey(strings[0])) {
-                return imageUrlMap.get(strings[0]);
-            } else {
-                OGTag og = getOGTag(strings[0]);
-                if(og != null && og.getImage() != null && og.getImage().length() > 0) {
-                    imageUrlMap.put(strings[0], og.getImage());
-                    //return og.getImage();
-                    this.imageView.setImageURI(Uri.parse(og.getImage()));
-                }
+            OGTag og = u.getOGTag(books[0].getUrl());
+            if(og != null && og.getImage() != null && og.getImage().length() > 0) {
+                return og.getImage();
             }
-
         } catch (Exception e) {
             this.e = e;
             return null;
@@ -53,40 +38,7 @@ public class BookImageTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        this.imageView.setImageURI(Uri.parse(s));
-    }
-
-    private OGTag getOGTag(String url) {
-        OGTag result = new OGTag();
-
-        try {
-            Connection con = Jsoup.connect(url);
-            Document doc = con.get();
-            Elements ogTags = doc.select("meta[property^=og:]");
-            if (ogTags.size() <= 0) {
-                return null;
-            }
-
-            int size = ogTags.size();
-
-            for (int i = 0 ; i < size ; i++) {
-                Element tag = ogTags.get(i);
-                String text = tag.attr("property");
-                if ("og:url".equals(text)) {
-                    result.setUrl(tag.attr("content"));
-                } else if ("og:image".equals(text)) {
-                    result.setImage(tag.attr("content"));
-                } else if ("og:description".equals(text)) {
-                    result.setDescription(tag.attr("content"));
-                } else if ("og:title".equals(text)) {
-                    result.setTitle(tag.attr("content"));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return result;
+    protected void onPostExecute(String string) {
+        this.imageView.setImageURI(string);
     }
 }

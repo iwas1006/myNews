@@ -1,10 +1,23 @@
 package com.han.mynews.dto;
 
 public class Book {
+    private String id;
     private String title;
     private String content;
     private String url;
     private String imageUrl = "";
+
+    public Book() {
+
+    }
+
+    public Book(String id, String title, String content, String url, String imageUrl) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.url = url;
+        this.imageUrl = imageUrl;
+    }
 
     public Book(String title, String content, String url) {
         this.title = title;
@@ -44,10 +57,19 @@ public class Book {
         this.imageUrl = imageUrl;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
-                "title='" + title + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", url='" + url + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
