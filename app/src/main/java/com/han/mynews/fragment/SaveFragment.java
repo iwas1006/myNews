@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 
 import com.han.mynews.R;
+import com.han.mynews.dao.NewsDaoImpl;
 import com.han.mynews.db.DBHelper;
 
 
@@ -34,7 +35,7 @@ public class SaveFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_db, container, false);
 
-        final DBHelper dbHelper = new DBHelper(getActivity(), "newsbook.db", null, 1);
+        final NewsDaoImpl news = new NewsDaoImpl(getContext());
         final TextView result = (TextView) v.findViewById(R.id.result);
 
         long now = System.currentTimeMillis();
@@ -77,8 +78,8 @@ public class SaveFragment extends Fragment {
             public void onClick(View v) {
                 //String item = etItem.getText().toString();
 
-                dbHelper.deleteAll();
-                result.setText(dbHelper.getResult());
+                news.deleteAll();
+                result.setText(news.getResult());
             }
         });
 
@@ -87,7 +88,7 @@ public class SaveFragment extends Fragment {
         select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                result.setText(dbHelper.getResult());
+                result.setText(news.getResult());
             }
         });
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.han.mynews.dao.NewsDaoImpl;
 import com.han.mynews.db.DBHelper;
 import com.han.mynews.dto.Book;
 import com.han.mynews.dto.OGTag;
@@ -28,7 +29,7 @@ public class BookMarkTask extends AsyncTask<String, Void, Book> {
     protected void onPostExecute(Book book) {
         if(book == null) return;
 
-        final DBHelper dbHelper = new DBHelper(c, "newsbook.db", null, 1);
+        final NewsDaoImpl news = new NewsDaoImpl(c);
         long now = System.currentTimeMillis();
         final Date date = new Date(now);
         // 출력될 포맷 설정
@@ -38,7 +39,7 @@ public class BookMarkTask extends AsyncTask<String, Void, Book> {
         String content = book.getContent().replaceAll("'","''");
 
         // DB에 데이터 추가
-        dbHelper.insert(simpleDateFormat.format(date), title, content, book.getUrl(), book.getImageUrl());
+        news.insert(simpleDateFormat.format(date), title, content, book.getUrl(), book.getImageUrl());
     }
 
     @Override

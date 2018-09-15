@@ -1,0 +1,33 @@
+
+    <!-- this is the item front view -->
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@color/item_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/row_layout"
+        android:padding="@dimen/item_padding">
+
+        <ImageView
+            android:id="@+id/row_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            />
+
+        <TextView
+            android:id="@+id/row_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/row_image"
+            android:singleLine="true"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/row_content"
+            android:layout_below="@+id/row_title"
+            android:layout_alignLeft="@+id/row_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp" />
+    </RelativeLayout>

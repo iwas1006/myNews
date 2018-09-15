@@ -1,5 +1,6 @@
 package com.han.mynews.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,9 @@ import android.widget.Toast;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.han.mynews.R;
 import com.han.mynews.adapter.BooksAdapter;
+import com.han.mynews.dao.NewsIconDaoImpl;
 import com.han.mynews.dto.Book;
+import com.han.mynews.task.BookImageTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +33,7 @@ public class BookListFragment extends Fragment {
     BooksAdapter adapter;
     SwipeToAction swipeToAction;
 
-    List<Book> books = new ArrayList<>();
+    public static List<Book> books = new ArrayList<>();
    // List<Book> soruceBooks = new ArrayList<>();
 
     public BookListFragment() {
@@ -97,7 +101,7 @@ public class BookListFragment extends Fragment {
         });
 
        // initBookList();
-        populate();
+      //  populate();
 
         // use swipeLeft or swipeRight and the elem position to swipe by code
        /* new Handler().postDelayed(new Runnable() {
@@ -171,7 +175,21 @@ public class BookListFragment extends Fragment {
         this.books.add(new Book("다음", "다음신문", "http://m.media.daum.net"));
         this.books.add(new Book("구글", "구글신문", "https://news.google.com"));
         this.books.add(new Book("네이트", "네이트뉴스", "http://m.news.nate.com/?"));
-  
+
+
+
+
+        NewsIconDaoImpl newsIcon = new NewsIconDaoImpl(getContext());
+        for(Book b : this.books) {
+            Log.d("___populate____", b.toString());
+            String imageUrl = newsIcon.getImageUrl(b.getUrl());
+
+            if(imageUrl != null && imageUrl.length() > 0) b.setImageUrl(imageUrl);
+            Log.d("___populate2____", b.toString());
+            if(b.getImageUrl() == null || b.getImageUrl().length() == 0) {
+                new BookImageTask(getContext(), adapter).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, b);
+            }
+        }
 
     }
 

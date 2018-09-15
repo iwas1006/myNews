@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.han.mynews.R;
 import com.han.mynews.adapter.BooksAdapter;
+import com.han.mynews.dao.NewsDaoImpl;
 import com.han.mynews.db.DBHelper;
 import com.han.mynews.dto.Book;
 
@@ -52,18 +54,21 @@ public class BookMarkFragment extends Fragment {
         swipeToAction = new SwipeToAction(recyclerView, new SwipeToAction.SwipeListener<Book>() {
             @Override
             public boolean swipeLeft(final Book itemData) {
-              //  final int pos = removeBook(itemData);
-                /*displaySnackbar(itemData.getTitle() + " removed", "Undo", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        addBook(pos, itemData);
-                    }
-                });*/
+                Log.d("Book_swipeLeft___", itemData.toString());
+
+                NewsDaoImpl news = new NewsDaoImpl(getContext());
+                news.delete(itemData.getId());
+                Toast.makeText(getActivity(), itemData.getTitle()+"is deleted", Toast.LENGTH_SHORT).show();
+
+                populate();
+                adapter.notifyDataSetChanged();
+
                 return true;
             }
 
             @Override
             public boolean swipeRight(Book itemData) {
+                Log.d("Book_swipeRight___", itemData.toString());
                // displaySnackbar(itemData.getTitle() + " loved", null, null);
                 return true;
             }
@@ -96,10 +101,11 @@ public class BookMarkFragment extends Fragment {
     }
 
     private void populate() {
+        NewsDaoImpl news = new NewsDaoImpl(getContext());
 
-        final DBHelper dbHelper = new DBHelper(getContext(), "newsbook.db", null, 1);
-        List<Book> bookList = dbHelper.getItems();
+        List<Book> bookList = news.getItems();
 
+        this.books.clear();
         this.books.addAll(bookList);
     }
 
