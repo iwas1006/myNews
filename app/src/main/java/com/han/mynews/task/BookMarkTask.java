@@ -1,17 +1,19 @@
 package com.han.mynews.task;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.RemoteViews;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.han.mynews.R;
 import com.han.mynews.dao.NewsDaoImpl;
-import com.han.mynews.db.DBHelper;
 import com.han.mynews.dto.Book;
 import com.han.mynews.dto.OGTag;
 import com.han.mynews.util.Util;
+import com.han.mynews.widget.FirstWidget;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -40,6 +42,11 @@ public class BookMarkTask extends AsyncTask<String, Void, Book> {
 
         // DB에 데이터 추가
         news.insert(simpleDateFormat.format(date), title, content, book.getUrl(), book.getImageUrl());
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(c);
+        ComponentName componentName = new ComponentName(c, FirstWidget.class);
+        RemoteViews views = new RemoteViews(c.getPackageName(), R.layout.widget_main);
+        appWidgetManager.updateAppWidget(componentName, views);
     }
 
     @Override
@@ -69,6 +76,29 @@ public class BookMarkTask extends AsyncTask<String, Void, Book> {
 
             return b;
         } catch (Exception e) {
+
+/*
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(componentName);
+            for (int appWidgetId : appWidgetIds) {
+                Log.d("_________________________________appWidgetId____",""+appWidgetId);
+                Intent intent = new Intent(context, ListViewWidgetService.class);
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+
+                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_main);
+                views.setRemoteAdapter(R.id.words, intent);
+
+
+                Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.naver.com"));
+                //  intent2.setAction("jh.project.widget.digital.third.action.CLICK");
+                PendingIntent pendingIntent2 = PendingIntent.getActivity(context, 0, intent2, 0);
+
+                views.setOnClickPendingIntent(R.id.row_layout, pendingIntent2);
+
+                appWidgetManager.updateAppWidget(appWidgetId, views);
+            }
+
+            appWidgetManager.u*/
             this.e = e;
             return null;
         }

@@ -1,6 +1,5 @@
 package com.han.mynews.widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -8,12 +7,22 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
+
 import com.han.mynews.R;
 
 public class FirstWidget extends AppWidgetProvider {
 
+   // static final String ACTION_CLICK = "com.han.mynews.widget.FirstWidget.CLICK";
+
     @Override
-    public void onReceive(Context context, Intent intent){
+    public void onReceive(Context context, Intent intent)
+    {
+        Log.d("______aa________","");
+
+        //Bundle b = intent.getExtras();
+
+        Log.d("______bbbaa________",intent.getAction());
+
         super.onReceive(context, intent);
     }
 
@@ -25,18 +34,18 @@ public class FirstWidget extends AppWidgetProvider {
 
             Log.d("_________________________________appWidgetId____",""+appWidgetId);
             Intent intent = new Intent(context, ListViewWidgetService.class);
+           // intent.setAction(ACTION_CLICK);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_main);
             views.setRemoteAdapter(R.id.words, intent);
 
+         //   views.setOnClickPendingIntent(R.id.button, pending);
 
-            Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.naver.com"));
-            //  intent2.setAction("jh.project.widget.digital.third.action.CLICK");
-            PendingIntent pendingIntent2 = PendingIntent.getActivity(context, 0, intent2, 0);
 
-            views.setOnClickPendingIntent(R.id.row_layout, pendingIntent2);
+
 
 
             //views.setRemoteAdapter(R.id.recyclerWidget, intent);

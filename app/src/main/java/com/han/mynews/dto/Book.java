@@ -1,11 +1,14 @@
 package com.han.mynews.dto;
 
+import android.graphics.Bitmap;
+
 public class Book {
     private String id;
     private String title;
     private String content;
     private String url;
     private String imageUrl = "";
+    private Bitmap imageBitmap;
 
     public Book() {
 
@@ -63,6 +66,14 @@ public class Book {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
+    }
+
+    public void setImageBitmap(Bitmap b) {
+        this.imageBitmap = b;
     }
 
     @Override

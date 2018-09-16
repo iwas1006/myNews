@@ -23,7 +23,7 @@
         <receiver android:name=".widget.FirstWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="jh.project.widget.digital.third.action.CLICK" />
+                <action android:name="com.han.mynews.widget.FirstWidget.CLICK" />
             </intent-filter>
 
             <meta-data
